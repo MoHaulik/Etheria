@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Background Animation</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .gradient-background {
+            background: linear-gradient(102deg, #f9e9e9, #dfe1ff, #dfe1ff, #d2fbfb);
+            background-size: 240% 240%;
+            animation: gradient-animation 8s ease infinite;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .logo {
+            width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .description, .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .start-button, .response-button {
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .start-button:hover, .response-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 200px;
+            }
+
+            .description, .question {
+                font-size: 1em;
+            }
+
+            .start-button, .response-button {
+                padding: 12px 24px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 150px;
+            }
+
+            .description, .question {
+                font-size: 0.9em;
+            }
+
+            .start-button, .response-button {
+                padding: 10px 20px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-background" id="content">
+        <img src="LogoRos.png" alt="Logo" class="logo" id="logo">
+        <p class="description">Elevate your well-being through immersive, nature-inspired experiences.</p>
+        <button class="start-button" onclick="start()">Start</button>
+    </div>
+
+    <script>
+        function start() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <p class="question">Take a moment to breathe in and reflect. How do you feel right now?</p>
+                <button class="response-button" onclick="nextQuestion(1)">Good</button>
+                <button class="response-button" onclick="nextQuestion(1)">Neutral</button>
+                <button class="response-button" onclick="nextQuestion(1)">Bad</button>
+                <button class="response-button" onclick="nextQuestion(1)">Other</button>
+            `;
+        }
+
+        function nextQuestion(stage) {
+            const content = document.getElementById('content');
+            if (stage === 1) {
+                content.innerHTML = `
+                    <p class="question">Let's leverage your body and environment to help you feel more at ease. Your mind and body are key to your overall experience.</p>
+                    <p class="question">How present do you feel in the moment right now?</p>
+                    <button class="response-button" onclick="nextQuestion(2)">Very present</button>
+                    <button class="response-button" onclick="nextQuestion(2)">Neutral</button>
+                    <button class="response-button" onclick="nextQuestion(2)">Disconnected</button>
+                `;
+            } else if (stage === 2) {
+                content.innerHTML = `
+                    <p class="question">What do you think could help you right now? Perhaps:</p>
+                    <button class="response-button" onclick="end('Calm')">A sense of Calm</button>
+                    <button class="response-button" onclick="end('Safety')">A sense of Safety</button>
+                    <button class="response-button" onclick="end('Community')">A sense of Community</button>
+                `;
+            }
+        }
+
+        function end(selection) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <p class="description">Starting your experience.</p>
+            `;
+            setTimeout(() => {
+                content.innerHTML = '';
+                let audio = new Audio();
+                if (selection === 'Calm') {
+                    audio.src = 'Calm.mp3';
+                } else if (selection === 'Safety') {
+                    audio.src = 'Safe.mp3';
+                } else if (selection === 'Community') {
+                    audio.src = 'Com.mp3';
+                }
+                audio.play();
+            }, 2000); // Wait for 2 seconds before starting the audio
+        }
+    </script>
+</body>
+</html>
